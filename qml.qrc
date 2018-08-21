@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ToolBarButton.qml</file>
+        <file>MinerPage.qml</file>
+        <file>SettingsPage.qml</file>
+        <file>Card.qml</file>
+        <file>InfoNode.qml</file>
+        <file>HorizontalSpacer.qml</file>
+    </qresource>
+</RCC>
