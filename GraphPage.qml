@@ -10,46 +10,28 @@ import QtGraphicalEffects 1.0
 Page {
     property string accentColor: "#21a2ff"
     property string primaryColor: "#253856"
-    anchors.fill: parent
+   // anchors.fill: parent
 
     background: Rectangle{
         color: primaryColor
     }
 
     ChartView {
+        id:chart
         title: "Line"
         anchors.fill: parent
         antialiasing: true
-        ValueAxis {
-            id: axisX
-            min: 0
-            max: 10
-            tickCount: 5
-        }
-
-        ValueAxis {
-            id: axisY
-            min: -0.5
-            max: 1.5
-        }
-
         LineSeries {
-            id: series1
-            axisX: axisX
-            axisY: axisY
-        }
-
-        ScatterSeries {
-            id: series2
-            axisX: axisX
-            axisY: axisY
-        }
+                name: "LineSeries"
+                XYPoint { x: 0; y: 0 }
+                XYPoint { x: 1.1; y: 2.1 }
+                XYPoint { x: 1.9; y: 3.3 }
+                XYPoint { x: 2.1; y: 2.1 }
+                XYPoint { x: 2.9; y: 4.9 }
+                XYPoint { x: 3.4; y: 3.0 }
+                XYPoint { x: 4.1; y: 3.3 }
+            }
     }
 
-    Component.onCompleted: {
-        for (var i = 0; i <= 10; i++) {
-            series1.append(i, Math.random());
-            series2.append(i, Math.random());
-        }
-    }
+
 }

@@ -92,12 +92,12 @@ ApplicationWindow {
             id: minerpage
         }
 
-        Item {
-            id: name
-GraphPage{}        }
+        GraphPage{
+            id: graphpage
+        }
 
         SettingsPage{
-            id:settingsPage
+            id:settingspage
         }
     }
 
