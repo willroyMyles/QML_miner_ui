@@ -9,5 +9,11 @@
         <file>HorizontalSpacer.qml</file>
         <file>CardSquare.qml</file>
         <file>GraphPage.qml</file>
+        <file>main.cpp</file>
+        <file>settings/SettingsNode.qml</file>
+        <file>images/brush.png</file>
+        <file>images/brush copy.png</file>
+        <file>libraries/Chart.js</file>
+        <file>CustomCanvas.qml</file>
     </qresource>
 </RCC>

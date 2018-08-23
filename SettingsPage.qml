@@ -1,87 +1,64 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.1
-
+import "settings"
 
 Page {
     property string accentColor: "#21a2ff"
     property string primaryColor: "#253856"
-    padding: 20
+    smooth: true
+    // padding: 20
 
-    background: Rectangle{
+    background: Rectangle {
         color: primaryColor
     }
 
     Component.onCompleted: {
-     //   console.log(MinerPage.primaryColor)
+
+        //   console.log(MinerPage.primaryColor)
     }
 
-   ColumnLayout{
-       spacing: 10
-       anchors.fill: parent
+    ColumnLayout {
+        spacing: 1
+        anchors.fill: parent
 
-       RowLayout{
-           Layout.fillWidth: true
+        Item {
+            Layout.fillHeight: true
+        }
 
-           Label{
-               Layout.fillWidth: true
-               text: "walletid"
-           }
-           TextEdit{
-               Layout.fillWidth: true
-           }
-       }
-       RowLayout{
-           Label{
-               Layout.fillWidth: true
-               text: "walletid"
-           }
-           TextEdit{
-               Layout.fillWidth: true
-           }
-       }
-       RowLayout{
-           Label{
-               Layout.fillWidth: true
-               text: "walletid"
-           }
-           TextEdit{
-               Layout.fillWidth: true
-           }
-       }
-       RowLayout{
-           Label{
-               Layout.fillWidth: true
-               text: "walletid"
-           }
-           TextEdit{
-               Layout.fillWidth: true
-           }
-       }
-       RowLayout{
-           Label{
-               Layout.fillWidth: true
-               text: "walletid"
-           }
-           TextEdit{
-               Layout.fillWidth: true
-           }
-       }
+        SettingsNode{
+            labeld: "Walled ID"
+            textfieldd: "Enter wallet ID here"
+        }
 
-       Item{
-           Layout.fillHeight: true
-       }
+        SettingsNode{
+            labeld: "Pool Address"
+            textfieldd: "Enter Pool Address"
+        }
 
-       RowLayout{
-           Button{
-               Layout.fillWidth: true
-               text: "cancel"
-           }
-           Button{
-               text: "confirm"
-               Layout.fillWidth: true
-           }
-       }
+        SettingsNode{
+            labeld: "Identifier"
+            textfieldd: "Enter Identifier"
+        }
 
-   }
+        SettingsNode{
+            labeld: "Password"
+            textfieldd: "Enter Password"
+        }
+
+        Item {
+            Layout.fillHeight: true
+        }
+
+        RowLayout {
+            Button {
+                Layout.fillWidth: true
+                text: "cancel"
+            }
+            Button {
+                text: "confirm"
+                Layout.fillWidth: true
+            }
+        }
+    }
 }

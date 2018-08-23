@@ -12,6 +12,7 @@ ApplicationWindow {
     height: 480
     title: qsTr("Miner")
 
+
     property string textColor: "#eee"
 
 
@@ -84,6 +85,7 @@ ApplicationWindow {
        // initialItem: minerpage
 
         anchors.fill: parent
+        smooth: true
         interactive: false
         background: Rectangle {
         }
