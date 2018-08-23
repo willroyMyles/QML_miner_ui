@@ -13,7 +13,6 @@
         <file>settings/SettingsNode.qml</file>
         <file>images/brush.png</file>
         <file>images/brush copy.png</file>
-        <file>libraries/Chart.js</file>
         <file>CustomCanvas.qml</file>
     </qresource>
 </RCC>
