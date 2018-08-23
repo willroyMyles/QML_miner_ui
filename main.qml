@@ -3,72 +3,152 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Material 2.2
-
+import QtGraphicalEffects 1.0
 
 ApplicationWindow {
-    id : mainwindow
+    id: mainwindow
     visible: true
     width: 640
     height: 480
     title: qsTr("Miner")
 
+    property string textColor: "#eee"
 
-    header : ToolBar{
+
+
+    ButtonGroup{
+        id: btnGrp
+    }
+
+    header: ToolBar {
         id: toolbar
-        property alias texts: toolbutton.text
-        RowLayout{
+        background: Rectangle {
+            //   color: "#eee"
+        }
+
+        RowLayout {
             anchors.fill: parent
-
-            ToolButton{
-                font.pixelSize: Qt.application.font.pixelSize * 1.8
-                id: toolbutton
-                text: "\u2630  OverView"
-                opacity: .5
-                onClicked: drawer.open()
+            id: row
+            spacing: 0
+            ToolBarButton {
+                id: overviewBtn
+                ButtonGroup.group: btnGrp
+                thisText: "OVERVIEW"
+                onClicked: {
+                    swipe.setCurrentIndex(0)
+                }
             }
 
-            Item{
-                Layout.fillWidth: true;
+            ToolBarButton {
+                id: graphBtn
+                ButtonGroup.group: btnGrp
+                thisText: "GRAPHS"
+                onClicked: {
+                    swipe.setCurrentIndex(1)
+                }
             }
 
+            ToolBarButton {
+                id: settingsBtn
+                ButtonGroup.group: btnGrp
+                thisText: "SETTINGS"
+                onClicked: {
+                    swipe.setCurrentIndex(2)
+                }
+            }
+
+            ToolBarButton {
+                id: aboutBtn
+                thisText: "ABOUT US"
+                checkable: false
+                onClicked: {
+                    drawer.open()
+                }
+            }
         }
+
+        layer.enabled: true
+                    layer.effect: DropShadow {
+                        //transparentBorder: true
+                        verticalOffset: 4
+                        color: "#00555555"
+                        radius: 9
+                        samples: 18
+                        visible: false
+
+                    }
     }
 
-    StackView{
-        id: stack
-        initialItem: "MinerPage.qml"
+    SwipeView {
+        id: swipe
+       // initialItem: minerpage
+
         anchors.fill: parent
-        background: Rectangle{
-            border.color: "red"
+        interactive: false
+        background: Rectangle {
+        }
+
+        MinerPage{
+            id: minerpage
+        }
+
+        Item {
+            id: name
+GraphPage{}        }
+
+        SettingsPage{
+            id:settingsPage
         }
     }
+
+//    Component.onCompleted: {
+//        stack.push(minerpage)
+//        stack.push(settingsPage)
+//        stack.push(chartPage)
+
+//        console.log(stack.depth)
+//    }
 
     Drawer {
-        id : drawer;
-        width: mainwindow.width * 0.4
+        id: drawer
+        width: mainwindow.width * 0.3
         height: mainwindow.height
+
+        background: Rectangle {
+            color: "#061021"
+        }
+
         Column {
             anchors.fill: parent
 
             ItemDelegate {
-                text: qsTr("Miner")
+                padding: 10
                 width: parent.width
+                Text {
+                    text: qsTr("Miner")
+                    color: textColor
+                }
                 onClicked: {
-                    if(stack.depth > 1) stack.pop()
+                    if (stack.depth > 1)
+                        stack.pop()
                     stack.push("MinerPage.qml")
                     drawer.close()
                     toolbar.texts = "\u2630  OverView"
                 }
             }
             ItemDelegate {
-                text: qsTr("Settings")
+                padding: 10
                 width: parent.width
+                Text {
+                    text: qsTr("Settings")
+                    color: textColor
+                }
                 onClicked: {
-                    if(stack.depth > 1) stack.pop()
+                    if (stack.depth > 1)
+                        stack.pop()
                     stack.push("SettingsPage.qml")
                     drawer.close()
                     toolbar.texts = "\u2630  Settings"
-
                 }
             }
         }

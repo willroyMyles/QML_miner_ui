@@ -7,5 +7,7 @@
         <file>Card.qml</file>
         <file>InfoNode.qml</file>
         <file>HorizontalSpacer.qml</file>
+        <file>CardSquare.qml</file>
+        <file>GraphPage.qml</file>
     </qresource>
 </RCC>

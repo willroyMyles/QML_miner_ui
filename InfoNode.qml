@@ -7,10 +7,10 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id : root
     width:180
-    height: 140
+    height: 120
     property int animationTime : 1250;
 
-    property color textColor: "#fff"
+    property color textColor: "#000"
     property int textWeight: 65
     property alias backgroundColor: box.color
     property int prevHashes: 97;
@@ -61,15 +61,15 @@ Item {
         height: 80
         id : boxBackground
         antialiasing: true
-        radius: 10
-        color: "#000"
+        radius: 100
+        color: "#99333333"
     }
 
     Rectangle{
 
         id : box
         width: boxBackground.width
-        height: boxBackground.height * currentHashes/prevHashes
+        height: boxBackground.height// * currentHashes/prevHashes
         anchors{
             left: boxBackground.left
             bottom: boxBackground.bottom
@@ -77,6 +77,14 @@ Item {
         antialiasing: true
         radius: boxBackground.radius
         color: "green"
+
+        gradient: Gradient{
+            GradientStop{ position: 1.0; color: "green" }
+            GradientStop{ position:1-currentHashes/prevHashes; color: "green" }
+            GradientStop{ position:1-currentHashes/prevHashes; color: "white" }
+
+        }
+
         opacity: 0.7
         Behavior on height {
 
