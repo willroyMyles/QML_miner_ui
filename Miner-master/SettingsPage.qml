@@ -15,7 +15,6 @@ Page {
 
     Component.onCompleted: {
 
-        //   console.log(MinerPage.primaryColor)
     }
 
     ColumnLayout {
@@ -29,21 +28,25 @@ Page {
         SettingsNode{
             labeld: "Walled ID"
             textfieldd: "Enter wallet ID here"
+            textValue: manager.walletIDValue
         }
 
         SettingsNode{
             labeld: "Pool Address"
             textfieldd: "Enter Pool Address"
+            textValue: manager.poolUrlValue
         }
 
         SettingsNode{
             labeld: "Identifier"
             textfieldd: "Enter Identifier"
+            textValue: manager.identifierValue
         }
 
         SettingsNode{
             labeld: "Password"
             textfieldd: "Enter Password"
+            textValue: manager.passwordValue
         }
 
         Item {

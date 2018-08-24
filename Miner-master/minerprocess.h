@@ -54,9 +54,42 @@ class MinerSettings;
 class MinerProcess;
 class QTimer;
 
-class MinerManager
+class MinerManager : public QObject
 {
+	Q_OBJECT
+		Q_PROPERTY(QString poolUrlValue READ poolUrlValue WRITE setPoolUrlValue NOTIFY poolUrlValueChanged)
+		Q_PROPERTY(QString identifierValue READ identifierValue WRITE setIdentifierValue NOTIFY identifierValueChanged)
+		Q_PROPERTY(QString passwordValue READ passwordValue WRITE setPasswordValue NOTIFY passwordValueChanged)
+		Q_PROPERTY(QString walletIDValue READ walletIDValue WRITE setWalletIDValue NOTIFY walletIDValueChanged)
+signals:
+	void poolUrlValueChanged(QString);
+	void identifierValueChanged(QString);
+	void passwordValueChanged(QString);
+	void walletIDValueChanged(QString);
 public:
+
+	QString poolUrlValue() { return poolUrl; }
+	void setPoolUrlValue(QString string) {
+		poolUrl = string;
+		poolUrlValueChanged(string);
+	}
+	QString identifierValue() { return identifier; }
+	void setIdentifierValue(QString string) {
+		identifier = string;
+		identifierValueChanged(string);
+	}
+	QString passwordValue() { return password; }
+	void setPasswordValue(QString string) {
+		password = string;
+		passwordValueChanged(string);
+	}
+	QString walletIDValue() { return walletId; }
+	void setWalletIDValue(QString string) {
+		walletId = string;
+		walletIDValueChanged(string);
+	}
+
+
 	QString poolUrl = "165.227.72.177:3333";
 	QString identifier = "x";
 	QString password = "jahminer";
