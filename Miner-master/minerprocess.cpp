@@ -166,7 +166,8 @@ bool MinerManager::initialize()
 	// create processes for each
 	int portNum = 9310;
 	for (auto gpu : list) {
-		auto proc = new MinerProcess(this);
+		auto proc = new MinerProcess();
+		proc->setManager(this);
 		proc->setGpu(gpu);
 		proc->setNetworkPort(portNum);
 		processes.append(proc);
@@ -283,7 +284,7 @@ void MinerProcess::startMining()
 				auto hps = (float)hashArray[0].toDouble(0);
 
 				// emit status changed
-				emit onMinerChartData({ poolConnected,uptime, hps });
+			//	emit onMinerChartData({ poolConnected,uptime, hps });
 			}
 		}, [this](QNetworkReply::NetworkError error)
 		{

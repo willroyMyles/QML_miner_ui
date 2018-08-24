@@ -74,7 +74,13 @@ class MinerChart;
 class MinerProcess : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(QString poolUrl READ poolUrl WRITE setPoolUrl NOTIFY poolUrlChanged)
 public:
+
+	QString poolUrl() { return minerMan->poolUrl; }
+	void setPoolUrl(QString string) { minerMan->poolUrl = string; emit poolUrlChanged(string); }
+
+
 	bool _isMining = false;
 	float hashesPerSecond;
 	//QString gpuType;
@@ -117,6 +123,16 @@ public:
 
 	QTimer* timer;
 
+	explicit MinerProcess(QObject *parent = Q_NULLPTR) {
+		netMan = new QNetworkAccessManager(nullptr);
+		sentRequests = 0;
+		retries = 0;
+	};
+
+	void setManager(MinerManager *manager) {
+		minerMan = manager;
+	}
+
 	MinerProcess(MinerManager* manager)
 	{
 		minerMan = manager;
@@ -134,8 +150,8 @@ signals:
 	void minerStatusChanged(MinerStatus status);
 
 	// called as soon as new miner data comes in
-	void onMinerChartData(MinerChartData data);
-
+	//void onMinerChartData(MinerChartData data);
+	void poolUrlChanged(QString);
 private:
 	void networkRequest(QString url, std::function<void(QString)> successCallback, std::function<void(QNetworkReply::NetworkError)> errorCallback);
 	void _setMinerStatus(MinerStatus status);

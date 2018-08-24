@@ -74,7 +74,7 @@ public:
 	};
 
 	GraphicsCardUI(QWidget *parent = Q_NULLPTR);
-
+	QString cardNameText = "just testing m90";
 	void setCardName(QString name);
 	void setOn(bool value);
 	void expand();
@@ -134,9 +134,19 @@ class SettingsManager;
 class MinerUI : public QWidget
 {
 	Q_OBJECT
+		Q_PROPERTY(QString cardName READ cardName WRITE setCardName NOTIFY cardNameChanged)
+signals:
+	void cardNameChanged(QString);
+
 public:
-	MinerUI(QWidget *parent = 0);
+	explicit MinerUI(QWidget *parent = 0);
 	~MinerUI();
+
+	QString cardName() { return card->cardNameText; }
+	void setCardName(QString string){ }
+
+
+
 	GraphicsCardUI* addGraphicsCard(QString string);
 	void setToStartAutomatically(bool shouldAuto) {
 		startAutomatically = shouldAuto;

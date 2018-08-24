@@ -692,25 +692,25 @@ void GraphicsCardUI::setMinerProcess(MinerProcess* process)
 	this->process = process;
 
 	if (process != nullptr) {
-		connect(process, &MinerProcess::onMinerChartData, [this](MinerChartData data)
-		{
-			// set last hash to ui
-			this->setSpeed(data.hps);
+		//connect(process, &MinerProcess::onMinerChartData, [this](MinerChartData data)
+		//{
+		//	// set last hash to ui
+		//	this->setSpeed(data.hps);
 
-			// if hps is 0 then it must be connecting
-			// set pool color to orange
-			if (data.connected && data.hps > 0)
-				this->setMinerStatus(MinerConnection::Mining);
-			else
-				this->setMinerStatus(MinerConnection::Connecting);
+		//	// if hps is 0 then it must be connecting
+		//	// set pool color to orange
+		//	if (data.connected && data.hps > 0)
+		//		this->setMinerStatus(MinerConnection::Mining);
+		//	else
+		//		this->setMinerStatus(MinerConnection::Connecting);
 
-			if (data.hps != 0) {
-				if (this->info->data.size() > 100)
-					this->info->data.removeFirst();
-				this->info->data.append(data);
-				this->info->repaint();
-			}
-		});
+		//	if (data.hps != 0) {
+		//		if (this->info->data.size() > 100)
+		//			this->info->data.removeFirst();
+		//		this->info->data.append(data);
+		//		this->info->repaint();
+		//	}
+		//});
 
 		connect(process, &MinerProcess::minerStatusChanged, [this](MinerStatus status)
 		{

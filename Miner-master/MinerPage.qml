@@ -3,6 +3,8 @@ import QtQuick.Layouts 1.1
 import QtQuick 2.9
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
+import minerprocess 1.0
+import minerui 1.0
 
 Page {
     property string accentColor: "#21a2ff"
@@ -13,6 +15,10 @@ Page {
     background: Rectangle {
         id: mainBg
         color: "#333"
+    }
+
+    MinerUI{
+        id: miner
     }
 
     ColumnLayout {
@@ -73,6 +79,7 @@ Page {
                     id: card1
                     currentHashes: 33
                     prevHashes: 123
+                    cardName: miner.cardName
                 }
 
                 CardSquare {
