@@ -131,7 +131,7 @@ signals:
 
 class MinerManager;
 class SettingsManager;
-class MinerUI : public QWidget
+class MinerUI : public QObject
 {
 	Q_OBJECT
 		Q_PROPERTY(QString cardName READ cardName WRITE setCardName NOTIFY cardNameChanged)
@@ -214,7 +214,6 @@ protected:
 
 	void mouseMoveEvent(QMouseEvent *event) {
 		QPoint delta = event->globalPos() - oldPos;
-		if (isPressed) move(x() + delta.x(), y() + delta.y());
 		oldPos = event->globalPos();
 	}
 

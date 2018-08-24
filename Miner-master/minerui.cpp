@@ -26,7 +26,7 @@ For more information see the LICENSE file
 
 
 MinerUI::MinerUI(QWidget *parent)
-	: QWidget(parent)
+	: QObject(parent)
 {
 	minerMan = new MinerManager();
 	minerMan->initialize();
@@ -47,16 +47,13 @@ MinerUI::MinerUI(QWidget *parent)
 	//setWindowFlags( Qt::X11BypassWindowManagerHint);
 	close->setVisible(false);
 	settingsClose->setVisible(false);
-	setContentsMargins(0, 0, 0, 0);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
-	setGraphicsEffect(0);
 #endif
 
 	autoStartSwitch->hide();
 	autostart->hide();
 
 	// setWindowFlag(Qt::SubWindow);
-	setAttribute(Qt::WA_QuitOnClose, false);
 	//setWindowModality(Qt::ApplicationModal);
 
 	// add cards
@@ -87,16 +84,7 @@ GraphicsCardUI* MinerUI::addGraphicsCard(QString string)
 
 void MinerUI::configureUI()
 {
-	setContentsMargins(20, 20, 20, 20);
-	//setMinimumSize(450, 250);
-	setMinimumWidth(800);
 
-	QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
-	effect->setBlurRadius(20);
-	effect->setXOffset(0);
-	effect->setYOffset(0);
-	effect->setColor(QColor(0, 0, 0, 200));
-	setGraphicsEffect(effect);
 
 
 	stack = new QStackedWidget;
@@ -107,7 +95,6 @@ void MinerUI::configureUI()
 	auto bottomLayout = new QHBoxLayout;
 	cardHolderLayout = new QVBoxLayout;
 
-	setLayout(mainLayout);
 	mainLayout->addWidget(stack);
 
 	auto groupBox = new QGroupBox;
@@ -148,7 +135,7 @@ void MinerUI::configureUI()
 	toolbar->addAction(close);
 
 
-	scrollArea = new QScrollArea(this);
+	scrollArea = new QScrollArea();
 	scrollArea->setContentsMargins(0, 3, 3, 3);
 	scrollArea->setAlignment(Qt::AlignTop);
 	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -176,7 +163,7 @@ void MinerUI::configureUI()
 	cardHolderLayout->setSpacing(2);
 	scrollArea->setWidget(cardHolder);
 
-	startBtn = new QPushButton("Start", this);
+	startBtn = new QPushButton("Start");
 	startBtn->setToolTip(tr("Click to start mining"));
 	coinType = new QLabel("JFX: 0.00123");
 	autostart = new QLabel("auto start");
@@ -243,7 +230,6 @@ void MinerUI::configureUI()
 	auto gripWidget = new QWidget;
 	gripWidget->setLayout(gripLayout);
 	gripLayout->addWidget(warningLabel);
-	gripLayout->addWidget(new QSizeGrip(this), 0, Qt::AlignBottom | Qt::AlignRight);
 
 
 	groupBoxLayout->addWidget(gripWidget);
@@ -279,7 +265,6 @@ void MinerUI::configureSettings()
 
 	connect(settingsClose, SIGNAL(triggered()), close, SLOT(trigger()));
 	connect(settingsClose, &QAction::triggered, [this]() {
-		hide();
 	});
 
 	auto confirm = new QPushButton("Confirm");
@@ -380,7 +365,6 @@ void MinerUI::configureSettings()
 	settingsLaout->addLayout(buttonLayout);
 
 	stack->addWidget(settingsWidget);
-	settingsLaout->addWidget(new QSizeGrip(this), 0, Qt::AlignBottom | Qt::AlignRight);
 
 	// pass application settings to ui
 	walletIdText = settingsMan->getValue("wallet_id", Constants::MINER_DEFAULT_WALLET_ID).toString();
@@ -447,7 +431,7 @@ void MinerUI::configureConnections()
 			if (!QFile::exists(xmrPath)) {
 
 #if defined QT_DEBUG
-				QMessageBox::warning(this, "xmrstak not found!", "xmrstak is missing or hasnt been compiled.");
+			//	QMessageBox::warning(this, "xmrstak not found!", "xmrstak is missing or hasnt been compiled.");
 #else
 				QMessageBox::warning(this, "xmrstak not found!", "xmrstak is missing");
 #endif	
@@ -478,34 +462,34 @@ void MinerUI::configureConnections()
 
 void MinerUI::configureStyleSheet()
 {
-	setStyleSheet("*{color:rgba(255,255,255)}"
-		"QGroupBox, #settingsWidget{ background: rgba(33,33,33,1); margin:0px; padding : 0px; border: 0px solid black; }"
-		"QScrollArea, #cardHolder{ border: 1px solid rgba(130,130,130,0); background: rgba(17,17,17,0); border-radius:1px; }"
-		"#cardHolder, #grip {background: rgba(17,17,17,0); padding: 0px; margin: 0px; }"
-		"QLabel{ color: rgba(255,255,255,.9); }"
-		"QLabel#label{ padding-left: 10px; background:rgba(10,10,10,0); }"
-		"QToolButton, #back {border-radius: 1px; background: rgba(20,20,20, 0); color: rgba(250,250,250, 1); border : 0px solid rgba(20,20,20, 1); padding: 4px 6px 4px 6px ; margin-right:3px;}"
-		//     "QToolButton:hover{background: rgba(48,48,48, 1);}"
-		"QScrollBar::handle {background: rgba(40,128, 185,.9); border-radius: 4px; right: 1px; width: 8px;}"
-		"QScrollBar{border : 0px solid black; background-color: rgba(32,32,32,.1); width: 8px;padding: 1px;}"
-		"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: rgba(200,200,200,0);}"
-		"QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { background: rgba(0,0,0,0); border: 0px solid white;}"
-		"QScrollBar::sub-line, QScrollBar::add-line {background: rgba(10,0,0,.1);}"
-		"QPushButton{ background: rgba(20,20,20,1); border: 1px solid rgba(10,10,10,1); border-radius: 1px;  color: rgba(255,255,255,.9); padding : 3px 9px 3px 9px; }"
-		""
-		"#startBtn{ padding: 9px 19px 9px 19px; background:rgba(23,23,23,.7); border:1px solid rgba(0,0,0,0);}"
-		"#startBtn:hover, QToolButton:hover, #back:hover { background : rgba(40,128, 185,.9); }"
-		//   "QScrollArea{background: rgba(23,23,23,1); border: 0px solid black; }"
-		"#toolBar{ background: rgba(40,128, 185,0); border: 1px solid rgba(10,0,0,0); }"
-		//"#back{ background: rgba(40,128, 185,0); border: 0px solid rgba(40,40,40,0.3); }"
-		"#bottomBtn{border: 1px solid rgba(40,40,40,0.3); padding: 10px; }"
-		"#bottomBtn:hover{background: rgba(40,128, 185,0.5);}"
-		"#edit { background: rgba(17,17,17,1); margin-left :10; margin-right : 10px; border : 0px; border-bottom : 1px solid black; }"
-		"#currencyBox, #currencyBox:drop-down {background-color: rgba(33,33,33,1); border :0px; border-bottom: 1px solid black; padding-left: 10px; margin-left : 5px; }"
-		"#currencyBox QAbstractItemView {background-color: rgba(33,33,33,1); border :0px; border-bottom: 1px solid black; padding-left: 10px; margin-left : 5px; selection-background-color: rgba(40,128, 185,0); }"
-		"#currencyBox QAbstractItemView::item:hover {background-color: rgba(40,128,185,1); border :0px;  }"
-		"QMessageBox{background:rgba(33,33,33,1);}"
-		"");
+	//setStyleSheet("*{color:rgba(255,255,255)}"
+	//	"QGroupBox, #settingsWidget{ background: rgba(33,33,33,1); margin:0px; padding : 0px; border: 0px solid black; }"
+	//	"QScrollArea, #cardHolder{ border: 1px solid rgba(130,130,130,0); background: rgba(17,17,17,0); border-radius:1px; }"
+	//	"#cardHolder, #grip {background: rgba(17,17,17,0); padding: 0px; margin: 0px; }"
+	//	"QLabel{ color: rgba(255,255,255,.9); }"
+	//	"QLabel#label{ padding-left: 10px; background:rgba(10,10,10,0); }"
+	//	"QToolButton, #back {border-radius: 1px; background: rgba(20,20,20, 0); color: rgba(250,250,250, 1); border : 0px solid rgba(20,20,20, 1); padding: 4px 6px 4px 6px ; margin-right:3px;}"
+	//	//     "QToolButton:hover{background: rgba(48,48,48, 1);}"
+	//	"QScrollBar::handle {background: rgba(40,128, 185,.9); border-radius: 4px; right: 1px; width: 8px;}"
+	//	"QScrollBar{border : 0px solid black; background-color: rgba(32,32,32,.1); width: 8px;padding: 1px;}"
+	//	"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: rgba(200,200,200,0);}"
+	//	"QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { background: rgba(0,0,0,0); border: 0px solid white;}"
+	//	"QScrollBar::sub-line, QScrollBar::add-line {background: rgba(10,0,0,.1);}"
+	//	"QPushButton{ background: rgba(20,20,20,1); border: 1px solid rgba(10,10,10,1); border-radius: 1px;  color: rgba(255,255,255,.9); padding : 3px 9px 3px 9px; }"
+	//	""
+	//	"#startBtn{ padding: 9px 19px 9px 19px; background:rgba(23,23,23,.7); border:1px solid rgba(0,0,0,0);}"
+	//	"#startBtn:hover, QToolButton:hover, #back:hover { background : rgba(40,128, 185,.9); }"
+	//	//   "QScrollArea{background: rgba(23,23,23,1); border: 0px solid black; }"
+	//	"#toolBar{ background: rgba(40,128, 185,0); border: 1px solid rgba(10,0,0,0); }"
+	//	//"#back{ background: rgba(40,128, 185,0); border: 0px solid rgba(40,40,40,0.3); }"
+	//	"#bottomBtn{border: 1px solid rgba(40,40,40,0.3); padding: 10px; }"
+	//	"#bottomBtn:hover{background: rgba(40,128, 185,0.5);}"
+	//	"#edit { background: rgba(17,17,17,1); margin-left :10; margin-right : 10px; border : 0px; border-bottom : 1px solid black; }"
+	//	"#currencyBox, #currencyBox:drop-down {background-color: rgba(33,33,33,1); border :0px; border-bottom: 1px solid black; padding-left: 10px; margin-left : 5px; }"
+	//	"#currencyBox QAbstractItemView {background-color: rgba(33,33,33,1); border :0px; border-bottom: 1px solid black; padding-left: 10px; margin-left : 5px; selection-background-color: rgba(40,128, 185,0); }"
+	//	"#currencyBox QAbstractItemView::item:hover {background-color: rgba(40,128,185,1); border :0px;  }"
+	//	"QMessageBox{background:rgba(33,33,33,1);}"
+	//	"");
 }
 
 void MinerUI::resetSettings()
