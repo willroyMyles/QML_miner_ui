@@ -1,0 +1,7 @@
+
+*.user
+build
+build/*
+*.pro
+
+CMakeLists\.txt\.user\.09d9304
