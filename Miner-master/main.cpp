@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 
 	qmlRegisterType<MinerProcess>("minerprocess", 1, 0, "MinerProcess");
 	qmlRegisterType<MinerUI>("minerui", 1, 0, "MinerUI");
+	qmlRegisterType<GraphicsCardUI>("graphicsCard", 1, 0, "GraphicsCardUI");
 
     QQmlApplicationEngine engine;
 	engine.rootContext()->setContextProperty("manager", &man);

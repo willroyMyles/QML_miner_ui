@@ -62,9 +62,10 @@ private:
 
 
 class Switch;
-class GraphicsCardUI : public QWidget
+class GraphicsCardUI : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(QString cardNameValue READ cardNameValue)
 public:
 	enum class MinerConnection {
 		Mining = 1,
@@ -72,6 +73,8 @@ public:
 		Notconnected = 3,
 		Inactive = 4
 	};
+
+	QString cardNameValue() { return cardName->text(); }
 
 	GraphicsCardUI(QWidget *parent = Q_NULLPTR);
 	QString cardNameText = "just testing m90";
@@ -135,8 +138,12 @@ class MinerUI : public QObject
 {
 	Q_OBJECT
 		Q_PROPERTY(QString cardName READ cardName WRITE setCardName NOTIFY cardNameChanged)
+		Q_PROPERTY(GraphicsCardUI* gcard READ gcard WRITE setGcard NOTIFY gcardChanged)
+		Q_PROPERTY(QList<GraphicsCardUI*> mlist READ mlist WRITE setMlist NOTIFY mlistChanged)
 signals:
 	void cardNameChanged(QString);
+	void gcardChanged(GraphicsCardUI*);
+	void mlistChanged();
 
 public:
 	explicit MinerUI(QWidget *parent = 0);
@@ -144,6 +151,18 @@ public:
 
 	QString cardName() { return card->cardNameText; }
 	void setCardName(QString string){ }
+
+	QList<GraphicsCardUI*> mlist() { return list; }
+	void setMlist(QList<GraphicsCardUI*> list) {
+		this->list = list;
+		emit mlistChanged();
+	}
+
+	GraphicsCardUI* gcard() { return card; }
+	void setGcard(GraphicsCardUI *card) {
+		this->card = card;
+		emit gcardChanged(card);
+	}
 
 
 

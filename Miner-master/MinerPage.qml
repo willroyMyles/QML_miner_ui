@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import minerprocess 1.0
 import minerui 1.0
+import graphicsCard 1.0
 
 Page {
     property string accentColor: "#21a2ff"
@@ -17,9 +18,18 @@ Page {
         color: "#333"
     }
 
+    onCardNameChanged:{
+
+    }
+
     MinerUI{
         id: miner
+        Component.onCompleted: {
+            console.log(miner.mlist);
+        }
+
     }
+
 
     ColumnLayout {
         anchors.fill: parent
@@ -79,7 +89,6 @@ Page {
                     id: card1
                     currentHashes: 33
                     prevHashes: 123
-                    cardName: miner.cardName
                 }
 
                 CardSquare {

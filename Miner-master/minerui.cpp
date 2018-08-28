@@ -30,6 +30,7 @@ MinerUI::MinerUI(QWidget *parent)
 {
 	minerMan = new MinerManager();
 	minerMan->initialize();
+	minerMan->setIdentifierValue("xy");
 
 	settingsMan = new SettingsManager("jahminer.ini");
 	fontIcon = new QtAwesome;
@@ -76,9 +77,9 @@ GraphicsCardUI* MinerUI::addGraphicsCard(QString string)
 	GraphicsCardUI *card = new GraphicsCardUI();
 	card->setCardName(string);
 	card->setObjectName(QStringLiteral("card"));
-	card->setMinimumHeight(150);
+	//card->setMinimumHeight(150);
 	list.append(card);
-	cardHolderLayout->addWidget(card);
+	//cardHolderLayout->addWidget(card);
 	return card;
 }
 
@@ -595,7 +596,7 @@ Dot::Dot(QColor col, QWidget *parent) :QWidget(parent) {
 	color = col;
 }
 
-GraphicsCardUI::GraphicsCardUI(QWidget *parent) : QWidget(parent) {
+GraphicsCardUI::GraphicsCardUI(QWidget *parent) : QObject(parent) {
 	configureCard();
 	configureConnections();
 	setColor(MinerConnection::Notconnected);
@@ -605,7 +606,7 @@ GraphicsCardUI::GraphicsCardUI(QWidget *parent) : QWidget(parent) {
 
 void GraphicsCardUI::setCardName(QString name) {
 	cardName->setText(name);
-	repaint();
+	//repaint();
 }
 
 void GraphicsCardUI::setOn(bool value)
@@ -874,23 +875,23 @@ void GraphicsCardUI::configureCard() {
 	//        cardLayout->setSpacing(6);
 	//cardLayout->setSizeConstraint(QLayout::SetFixedSize);
 	cardLayout->setContentsMargins(2, 1, 3, 2);
-	setLayout(mainLayout);
+	//setLayout(mainLayout);
 	mainLayout->addWidget(card);
 
 	card->setMinimumHeight(150);
 	//card->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	//qDebug() << card->geometry();
-	setStyleSheet(" * {color: white; }"
-		"QWidget#logo, QWidget#info,QWidget#additional  { background:rgba(17,17,17,0); border : 0px solid rgba(00,00,00,.2); border-radius: 1px; margin: 0px;  }"
-		//"QWidget#logo:hover, QWidget#info:hover,QWidget#additional:hover{border : 1px solid rgba(40,128,185,.01); }"
-		//"QLabel{ color:rgba(255,255,255,.8); padding :3px; }"
-		"QWidget#info  { border-left : 5px solid rgba(00,00,00,.1);  }"
-		"#card:hover{background: rgba(40,128,185,.11); }"
-		"#logo:checked {background: qlineargradient(x1: 0, y1: 1, x2: 1, y2: 1, stop: 0 rgba(40,128,185,.5), stop: 0.5 rgba(17,17,17,0));}"
-		"QToolBar::separator{ background:rgba(0,0,0,.1);}"
-		"#card{background: rgba(40,128,185,.1); border: 1px solid rgba(0,0,0,.85);}"
-		"#gpuLabel{ color: rgba(150,150,170,.8);}");
+	//setStyleSheet(" * {color: white; }"
+	//	"QWidget#logo, QWidget#info,QWidget#additional  { background:rgba(17,17,17,0); border : 0px solid rgba(00,00,00,.2); border-radius: 1px; margin: 0px;  }"
+	//	//"QWidget#logo:hover, QWidget#info:hover,QWidget#additional:hover{border : 1px solid rgba(40,128,185,.01); }"
+	//	//"QLabel{ color:rgba(255,255,255,.8); padding :3px; }"
+	//	"QWidget#info  { border-left : 5px solid rgba(00,00,00,.1);  }"
+	//	"#card:hover{background: rgba(40,128,185,.11); }"
+	//	"#logo:checked {background: qlineargradient(x1: 0, y1: 1, x2: 1, y2: 1, stop: 0 rgba(40,128,185,.5), stop: 0.5 rgba(17,17,17,0));}"
+	//	"QToolBar::separator{ background:rgba(0,0,0,.1);}"
+	//	"#card{background: rgba(40,128,185,.1); border: 1px solid rgba(0,0,0,.85);}"
+	//	"#gpuLabel{ color: rgba(150,150,170,.8);}");
 
 	QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
 	effect->setBlurRadius(10);
